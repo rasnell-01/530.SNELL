@@ -38,7 +38,7 @@ def get_posts(limit: int = 5) -> None:
         response = requests.get(url, timeout=10)
 
         if response.ok:
-            posts = response.json()          # Parse JSON payload
+            posts = response.json()
             print(f"  Status : {response.status_code} OK")
             print(f"  Total posts retrieved: {len(posts)}")
             print(f"\n  Showing first {limit} post title(s):\n")
@@ -93,7 +93,6 @@ def create_post(title: str, body: str, user_id: int) -> None:
 def demonstrate_error_handling() -> None:
     print_section("STEP 3 – Error Handling Demonstrations")
 
-    # ── 3a: 404 Not Found ──────────────────────
     bad_endpoint = f"{BASE_URL}/posts/99999"
     print(f"  [Test 3a] GET request to a non-existent resource:")
     print(f"  URL: {bad_endpoint}\n")
@@ -108,7 +107,6 @@ def demonstrate_error_handling() -> None:
     except requests.exceptions.RequestException as exc:
         print(f"[REQUEST ERROR] {exc}")
 
-    # ── 3b: Invalid / unreachable URL ─────────────
     print(f"\n  [Test 3b] GET request to a completely invalid URL:")
     invalid_url = "https://this.url.does.not.exist.example/data"
     print(f"  URL: {invalid_url}\n")
@@ -134,23 +132,19 @@ def main() -> None:
     print("   Target API: https://jsonplaceholder.typicode.com")
     print("═" * 60)
 
-    # Step 1 – GET
     get_posts(limit=5)
 
-    # Step 2 – POST
     create_post(
         title="Learning Python Web Clients",
         body="Using the requests library to send HTTP requests is straightforward and powerful.",
         user_id=1,
     )
 
-    # Step 3 – Error handling
     demonstrate_error_handling()
 
     print(f"\n{DIVIDER}")
     print("  All steps complete.")
     print(DIVIDER + "\n")
-
 
 if __name__ == "__main__":
     main()
