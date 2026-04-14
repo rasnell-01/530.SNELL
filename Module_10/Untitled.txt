@@ -1,0 +1,140 @@
+Assignment: Simulating Incast, ECMP Imbalance, and Queueing in a Leaf-Spine Data Center
+
+Learning Goals
+
+By completing this assignment, students should be able to:
+
+model a simplified large-scale data center network,
+explain why leaf-spine topologies are used,
+observe how many-to-one communication patterns create incast,
+see how equal-cost multipath routing can still produce imbalance,
+measure queue growth, delay, throughput, and dropped packets,
+connect transport behavior to application-level communication patterns.
+Background
+
+Large data centers often use a leaf-spine network rather than a simple hierarchy. Each leaf switch connects a rack of servers, and each leaf connects upward to multiple spine switches. This creates many equal-cost paths between servers in different racks.
+
+Although this structure improves aggregate bandwidth, several problems still arise:
+
+many senders may simultaneously transmit to one receiver,
+paths chosen by hashing may not spread traffic evenly,
+switch buffers can fill quickly during microbursts,
+tail latency may become much worse than average latency.
+In this assignment, you will build a simulator that models these effects.
+
+Your Task
+
+Write a program that simulates a simplified leaf-spine data center network and supports three traffic scenarios:
+
+Uniform random traffic Each server sends to a random destination.
+
+Incast traffic Many servers send simultaneously to one receiver.
+
+Hotspot traffic A significant fraction of the network sends to a small set of popular receivers.
+
+Your simulator should model:
+
+servers,
+leaf switches,
+spine switches,
+links with fixed bandwidth,
+per-port output queues with finite capacity,
+time progressing in discrete steps.
+You should also implement a simplified version of ECMP:
+
+when a flow crosses racks, assign it to one spine switch using a hash over (src, dst) or (src, dst, flow_id),
+keep that path fixed for the duration of the flow.
+You are provided with a ZIP file (see Canvas) with starter code for this assignment.   It provides the base infrastructure required and you should address all of the TODO issues you find in that code.
+
+Required Features
+
+Part 1: Topology
+
+Model a network with parameters:
+
+number of racks,
+servers per rack,
+number of spine switches,
+link bandwidth,
+queue capacity.
+A reasonable default example is:
+
+8 leaf switches,
+8 servers per leaf,
+4 spine switches.
+Part 2: Traffic Generation
+
+Support flows with:
+
+source server,
+destination server,
+size in packets,
+start time.
+At minimum, generate the three workloads listed above.
+
+Part 3: Routing
+
+Implement routing rules:
+
+if source and destination are in the same rack, traffic stays local through one leaf,
+otherwise traffic goes source -> leaf -> spine -> destination leaf -> destination,
+ECMP chooses one spine path.
+Part 4: Queueing
+
+Each outgoing link should have:
+
+a queue,
+a service rate,
+a finite buffer size,
+packet drops if the queue is full.
+You may simulate packet-by-packet or in fixed-size chunks, but packet-level is preferred.
+
+Part 5: Metrics
+
+Report at least:
+
+total packets sent,
+total packets delivered,
+total packets dropped,
+average flow completion time,
+maximum flow completion time,
+average queue length,
+maximum queue length,
+per-link utilization.
+Part 6: Experiments
+
+Run experiments that answer the following questions:
+
+What happens to flow completion time as the number of simultaneous senders in an incast grows?
+How balanced is ECMP under uniform traffic?
+Can ECMP still produce overloaded links even when many equal-cost paths exist?
+What happens when queue size is increased?
+What happens when hotspot traffic becomes more concentrated?
+Suggested Implementation Strategy
+
+Students should build the simulator in layers:
+
+basic graph/topology model,
+flow generation,
+route selection,
+queue simulation,
+statistics collection,
+experiments and analysis.
+Deliverables
+
+Students should place the following into their GitHub repository:
+
+source code,
+README explaining how to compile and run,
+short report with graphs and analysis,
+sample output for each workload.
+Please respond to the following:
+
+Respond to the following questions in your report:
+
+Why does a leaf-spine topology help with bisection bandwidth?
+Why can incast still occur even in a highly connected fabric?
+Why does ECMP not guarantee perfect load balance?
+Why is tail latency often more important than average latency?
+How do application communication patterns shape network behavior?
+
