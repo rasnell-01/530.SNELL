@@ -1,8 +1,0 @@
-# square.tg
-# The classic turtle starter: a plain square.
-
-pen 1
-dotimes 4 {
-    forward 150
-    turn 90
-}

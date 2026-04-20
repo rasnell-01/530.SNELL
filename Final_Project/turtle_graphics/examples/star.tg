@@ -1,9 +1,0 @@
-# star.tg
-# A 5-pointed star.
-# The trick: each point requires a 144-degree exterior turn.
-
-pen 1
-dotimes 5 {
-    forward 200
-    turn 144
-}
