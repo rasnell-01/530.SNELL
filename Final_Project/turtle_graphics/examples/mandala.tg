@@ -1,0 +1,32 @@
+# mandala.tg
+#
+# A mandala built from a reusable 'petal' procedure.
+# Each petal is two spiral arcs; 24 petals are placed at 15-degree intervals.
+#
+# Demonstrates:
+#   - 'to name { body }' procedure definition
+#   - bare name  procedure call
+#   - 'set' and arithmetic inside a procedure
+
+to petal {
+    set r 8
+    dotimes 18 {
+        forward r
+        turn 10
+        set r (r + 3)
+    }
+    turn 180
+    set r 8
+    dotimes 18 {
+        forward r
+        turn 10
+        set r (r + 3)
+    }
+    turn 180
+}
+
+pen 1
+dotimes 24 {
+    petal
+    turn 15
+}

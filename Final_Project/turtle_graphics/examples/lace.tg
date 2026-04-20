@@ -1,0 +1,22 @@
+# lace.tg
+#
+# A lace-like ring pattern. The 'arch' procedure draws a curved arc using
+# small forward+turn steps. Arch size grows each pass via a shared variable.
+#
+# Demonstrates that variables set in the outer program are visible inside
+# procedures, and changes inside the procedure persist back in the caller.
+
+to arch {
+    dotimes 20 {
+        forward side
+        turn 9
+    }
+}
+
+pen 1
+set side 5
+dotimes 36 {
+    arch
+    turn 10
+    set side (side + 0.5)
+}

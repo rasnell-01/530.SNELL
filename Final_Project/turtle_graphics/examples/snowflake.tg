@@ -1,0 +1,41 @@
+# snowflake.tg
+#
+# A geometric snowflake built from two cooperating procedures:
+#   - 'spike'  draws one pointed arm
+#   - 'branch' draws a single spike plus two side spikes offset by 60 degrees
+#
+# Then 6 branches are arranged at 60-degree intervals.
+#
+# Demonstrates multiple procedure definitions and procedures calling procedures.
+
+to spike {
+    forward 80
+    turn 150
+    forward 40
+    turn 120
+    forward 40
+    turn 150
+    forward 80
+    turn 180
+}
+
+to branch {
+    spike
+    pen 0
+    forward 40
+    pen 1
+    turn -60
+    spike
+    turn 120
+    spike
+    turn -60
+    pen 0
+    forward -40
+    pen 1
+}
+
+pen 1
+dotimes 6 {
+    branch
+    turn 60
+}
